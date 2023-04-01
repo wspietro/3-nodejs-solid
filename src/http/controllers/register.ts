@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/pristma";
 import { z } from "zod";
 import { FastifyRequest, FastifyReply } from "fastify";
+import { hash } from "bcryptjs";
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
   const registerBodySchema = z.object({
@@ -11,11 +12,13 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
   const { name, email, password } = registerBodySchema.parse(request.body);
 
+  const password_hash = await hash(password, 6); // 6 rounds hash
+
   await prisma.user.create({
     data: {
       name,
       email,
-      password_hash: password, // TODO: transformar em hash
+      password_hash,
     },
   });
 
