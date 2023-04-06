@@ -21,6 +21,8 @@ export class RegisterUseCase {
     // não usamos o reply diretamente pois a lógica de criacao do usuário deve ser separada da criação por requisicao http
     if (userWithSameEmail) {
       throw new UserAlreadyExistsError();
+    } else {
+      // TODO: we shoul log to an external tool like DataDog/NewRelic/Sentry
     }
 
     await this.usersRepository.create({
