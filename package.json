@@ -10,7 +10,8 @@
     "lint": "eslint src --ext .ts --fix",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +31,7 @@
   },
   "dependencies": {
     "@prisma/client": "4.12.0",
+    "@vitest/ui": "0.29.8",
     "bcryptjs": "2.4.3",
     "dotenv": "16.0.3",
     "fastify": "4.15.0",
