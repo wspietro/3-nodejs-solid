@@ -1,4 +1,5 @@
 import { UsersRepository } from "@/repositories/users-repository";
+import { User } from "@prisma/client";
 import { hash } from "bcryptjs";
 import { UserAlreadyExistsError } from "./errors/user-already-exists-error";
 
@@ -8,12 +9,21 @@ interface RegisterUseCaseRequest {
   password: string;
 }
 
+interface RegisterUseCaseResponse {
+  user: User;
+}
+
 // D - Dependency Inversion Principle
 
 export class RegisterUseCase {
-  constructor(private usersRepository: UsersRepository) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(private usersRepository: UsersRepository) { }
 
-  async execute({ name, email, password }: RegisterUseCaseRequest) {
+  async execute({
+    name,
+    email,
+    password,
+  }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
     const password_hash = await hash(password, 6); // 6 rounds hash
 
     const userWithSameEmail = await this.usersRepository.findByEmail(email);
@@ -25,10 +35,14 @@ export class RegisterUseCase {
       // TODO: we shoul log to an external tool like DataDog/NewRelic/Sentry
     }
 
-    await this.usersRepository.create({
+    const user = await this.usersRepository.create({
       name,
       email,
       password_hash,
     });
+
+    return {
+      user,
+    }; // no futuro, podemos ter outras coisas sendo retornada. Dessa forma não precisamos mudar a estrutura do retorno
   }
 }
