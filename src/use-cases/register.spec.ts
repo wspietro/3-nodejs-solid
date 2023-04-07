@@ -35,7 +35,8 @@ describe("Register use-case", () => {
       password: "test123",
     });
 
-    expect(() =>
+    await expect(() =>
+      // usar await pois temos uma promise
       registerUseCase.execute({
         name: "John Doe",
         email,
