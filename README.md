@@ -13,7 +13,7 @@ Gympass Style app.
 - [ ] Deve ser possível o usuário buscar academias pelo nome;
 - [4] Deve ser possível o usuário realizar check-in em uma academia;
 - [ ] Deve ser possível validar o check-in de um usuário;
-- [ ] Deve ser possível cadastrar uma academia.
+- [6] Deve ser possível cadastrar uma academia.
 
 ## Regras de negócio (fluxos para usuário conseguir executar os RF)
 
