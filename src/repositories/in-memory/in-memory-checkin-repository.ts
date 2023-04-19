@@ -6,6 +6,18 @@ import { CheckInsRepository } from "../check-ins-repository";
 export class InMemoryCheckInRepository implements CheckInsRepository {
   public items: CheckIn[] = [];
 
+  async findById(toValidateCheckinId: string) {
+    const toValidateCheckIn = this.items.find(
+      (checkIn) => checkIn.id === toValidateCheckinId
+    );
+
+    if (!toValidateCheckIn) {
+      return null;
+    }
+
+    return toValidateCheckIn;
+  }
+
   async findByUserIdOnDate(userId: string, date: Date) {
     const startOfTheDay = dayjs(date).startOf("date"); // date = dia
     const endOfTheDay = dayjs(date).endOf("date");
@@ -51,6 +63,16 @@ export class InMemoryCheckInRepository implements CheckInsRepository {
     };
 
     this.items.push(checkIn);
+
+    return checkIn;
+  }
+
+  async save(checkIn: CheckIn) {
+    const checkInIndex = this.items.findIndex((item) => item.id === checkIn.id);
+
+    if (checkInIndex >= 0) {
+      this.items[checkInIndex] = checkIn;
+    }
 
     return checkIn;
   }
