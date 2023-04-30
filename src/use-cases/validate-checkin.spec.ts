@@ -12,15 +12,6 @@ describe("Validate Check-in use case", () => {
     checkInsRepository = new InMemoryCheckInRepository();
     sut = new ValidateCheckInUseCase(checkInsRepository);
 
-    // await gymsRepository.create({
-    //   id: "gym-01",
-    //   title: "JS Gym",
-    //   description: "",
-    //   phone: "0",
-    //   latitude: -23.5456482,
-    //   longitude: -46.6859711,
-    // });
-
     vi.useFakeTimers(); // criando mock
   });
 
@@ -35,7 +26,7 @@ describe("Validate Check-in use case", () => {
     });
 
     const { checkIn } = await sut.execute({
-      toValidatecheckInId: createdCheckIn.id,
+      toValidateCheckInId: createdCheckIn.id,
     });
 
     expect(checkIn.validated_at).toEqual(expect.any(Date));
@@ -45,7 +36,7 @@ describe("Validate Check-in use case", () => {
   it("should not be able to validate an inexistent check-in", async () => {
     await expect(
       sut.execute({
-        toValidatecheckInId: "inexistent-check-in-id",
+        toValidateCheckInId: "inexistent-check-in-id",
       })
     ).rejects.toBeInstanceOf(ResourceNotFoundError);
   });
@@ -64,7 +55,7 @@ describe("Validate Check-in use case", () => {
 
     await expect(() =>
       sut.execute({
-        toValidatecheckInId: createdCheckIn.id,
+        toValidateCheckInId: createdCheckIn.id,
       })
     ).rejects.toBeInstanceOf(LateCheckinValidationError);
   });
