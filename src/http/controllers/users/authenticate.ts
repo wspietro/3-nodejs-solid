@@ -28,6 +28,7 @@ export async function authenticate(
       {
         sign: {
           sub: user.id,
+          expiresIn: "10m",
         },
       }
     );
