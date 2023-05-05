@@ -5,9 +5,11 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
   // Essa rota não passa pela verificação de JWT (AT) pq é chamada justamente quando ele não está mais válido
   await request.jwtVerify({ onlyCookie: true });
 
+  const { role } = request.user;
+
   // JWT
   const token = await reply.jwtSign(
-    {},
+    { role },
     {
       sign: {
         sub: request.user.sub,
@@ -17,7 +19,7 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
 
   // Refresh Token
   const refreshToken = await reply.jwtSign(
-    {},
+    { role },
     {
       sign: {
         sub: request.user.sub,
